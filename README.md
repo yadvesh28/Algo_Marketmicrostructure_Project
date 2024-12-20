@@ -6,13 +6,13 @@ This README provides a comprehensive overview of two sophisticated algorithmic t
 
 ## Team
 
-<!-- !![Alt text](img/DSC05522.JPG){width=240 height=160px}-->
+![Alt text](img/Ben_Image.JPG){width=240 height=160px}
 <p align="center"><strong>Ben Granados</strong></p>
 
 Email: [bgg3@illinois.edu](mailto:bgg3@illinois.edu)  
-LinkedIn: [https://www.linkedin.com/in/ben/](https://www.linkedin.com/in/ben/)
+LinkedIn: [www.linkedin.com/in/bengranados10](www.linkedin.com/in/bengranados10)
 
-[Update Linkedin and  Bio].
+I am a Master's student in Financial Engineering at the University of Illinois Urbana-Champaign with expertise in programming, machine learning, and financial modeling. My experience includes NLP-driven financial analysis, predictive modeling, and portfolio evaluation, leveraging tools like Python, C++, and R. I’m passionate about applying technology and data-driven methods to solve complex financial problems and optimize decision-making.
 
 ---
 
