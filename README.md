@@ -30,9 +30,9 @@ LinkedIn: [https://www.linkedin.com/in/dhruv/](https://www.linkedin.com/in/dhruv
 <p align="center"><strong>Utkarsh Sharma</strong></p>
 
 Email: [usharma4@illinois.edu](mailto:usharma4@illinois.edu)  
-LinkedIn: [https://www.linkedin.com/in/utkarsh/](https://www.linkedin.com/in/utkarsh/)
+LinkedIn: [https://www.linkedin.com/in/utkarsh/](https://www.linkedin.com/in/utkarshsharma00/)
 
-[Update Linkedin and  Bio].
+I am currently pursuing an MS in Computer Science at the University of Illinois Urbana-Champaign (expected 2025), focusing on Data Mining, Deep Learning with Graphs, and Algorithmic Market Microstructure. At the Molecule Maker Lab Institute, I am developing EquiCat, an equivariant graph neural network that learns molecular representations through self-supervised contrastive learning on 3D conformers, achieving significant improvements in enantioselectivity prediction for asymmetric catalysis. Previously, at ION Group (2021-2023), I served as a Rotational Analyst in Cleared Derivatives, where I led the development of PATSAnalytics, creating data extraction pipelines and PowerBI dashboards for real-time trading insights across multiple exchanges. I also re-engineered the Alert Monitoring System post-cyber-attack and established UAT trading environments for exchanges including SGX, DGCX, and SFE, demonstrating adaptability and deep market structure knowledge.
 
 ---
 
