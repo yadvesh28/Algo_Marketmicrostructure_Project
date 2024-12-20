@@ -134,6 +134,76 @@ Both strategies are implemented using an event-driven approach, reacting to data
 
 The provided C++ code implementations integrate these logic flows, allowing for easy backtesting and tuning of parameters.
 
+Below are references to the code for both strategies, which can be further adapted and integrated into a trading framework:
+
+**Market Making Strategy (TradeImpactMM):**
+```cpp
+class TradeImpactMM {
+    // Core components
+    double CalculateTradeImpact(const Instrument* instrument, 
+                               double trade_size, 
+                               bool is_buy);
+    
+    std::pair<double, double> CalculateQuotes(const Instrument* instrument);
+    
+    // Risk management
+    void UpdateQuotes(const Instrument* instrument);
+    bool IsSafeToQuote(const Instrument* instrument, 
+                       double bid_price, 
+                       double ask_price);
+};
+```
+
+**Liquidity Taking Strategy (StopLossHunting):**
+```cpp
+class StopLossHunter {
+    // Signal generation
+    bool IsNearSignificantLevel(const Instrument* instrument, 
+                               double price, 
+                               bool& is_near_high);
+    
+    double CalculateVolatility(const Instrument* instrument);
+    
+    // Position management
+    void ProcessPotentialEntry(const Instrument* instrument, 
+                             double price);
+    void ManagePosition(const Instrument* instrument, 
+                       double price);
+};
+```
+## Event Processing Framework
+
+Both strategies implement key event handlers:
+
+1. **Trade Events**
+   - Update impact measurements
+   - Process potential entries
+   - Manage existing positions
+
+2. **Quote Events**
+   - Update volatility calculations
+   - Adjust theoretical prices
+   - Trigger quote updates
+
+3. **Order Events**
+   - Track fills and executions
+   - Update position states
+   - Manage risk limits
+
+## Risk Management
+
+### Market Making Strategy
+1. Position-based quote adjustment
+2. Dynamic spread management
+3. Size scaling based on inventory
+4. Maximum position limits
+
+### Stop-Loss Hunter Strategy
+1. Volatility-based entry filters
+2. Fixed stop-loss levels
+3. Account-risk-based position sizing
+4. Maximum loss limits per trade
+
 ---
 
 # Results and Discussion
@@ -158,16 +228,29 @@ While the raw profitability and stability depend on market conditions and parame
 - **Machine Learning Integration:** Incorporate predictive signals (from machine learning models) to enhance entry/exit decisions, further improving the risk-adjusted returns.
 - **Enhanced Risk Management:** Implement more sophisticated position and order book analytics to adaptively adjust risk and capture more complex market scenarios.
 
+## Future Enhancements
+
+1. **Machine Learning Integration**
+   - Predictive analytics for trade impact
+   - Pattern recognition for stop-loss levels
+   - Adaptive parameter optimization
+
+2. **Risk Enhancement**
+   - Cross-asset correlation analysis
+   - Dynamic volatility adjustment
+   - Adaptive position sizing
+
+3. **Performance Optimization**
+   - Low-latency quote updates
+   - Efficient order book processing
+   - Smart order routing integration
+
+
 ---
 
-# Code
+## Technical Requirements
 
-Below are references to the code for both strategies, which can be further adapted and integrated into a trading framework:
-
-**Market Making Strategy (TradeImpactMM):**
-```cpp
-/* Refer to TradeImpactMM C++ code implementation provided previously */
-
-**Liquidity Taking Strategy (StopLossHunting):**
-```cpp
-/* Refer to StopLossHunter C++ code implementation provided previously */
+- C++17 or higher
+- Strategy Studio Framework
+- Real-time market data feed
+- Low-latency execution capability
