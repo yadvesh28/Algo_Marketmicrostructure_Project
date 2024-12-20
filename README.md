@@ -1,11 +1,36 @@
 # Market Making and Liquidity Taking Strategies
 
-This README provides a comprehensive overview of two algorithmic trading strategies—**Market Making** and **Liquidity Taking (StopLossHunter)**—including their objectives, methodologies, and mathematical underpinnings.
+This README provides a comprehensive overview of two sophisticated algorithmic trading strategies implemented within the Strategy Studio framework. The project demonstrates the application of quantitative methods in high-frequency trading through Market Making and Liquidity Taking approaches.
 
 [[_TOC_]]
 
 ## Team
 
+/* ![Alt text](img/DSC05522.JPG){width=240 height=160px} */
+**Ben Granados**
+
+Email: [bgg3@illinois.edu](mailto:bgg3@illinois.edu)  
+LinkedIn: [https://www.linkedin.com/in/ben/](https://www.linkedin.com/in/ben/)
+
+[Update Here].
+
+/* ![Alt text](img/DSC05522.JPG){width=240 height=160px} */
+**Dhruv Oza (Team Lead)**
+
+Email: [dhruvo2@illinois.edu](mailto:dhruvo2@illinois.edu)  
+LinkedIn: [https://www.linkedin.com/in/dhruv/](https://www.linkedin.com/in/dhruv/)
+
+[Update Here].
+
+/* ![Alt text](img/DSC05522.JPG){width=240 height=160px} */
+**Utkarsh Sharma**
+
+Email: [usharma4@illinois.edu](mailto:usharma4@illinois.edu)  
+LinkedIn: [https://www.linkedin.com/in/utkarsh/](https://www.linkedin.com/in/utkarsh/)
+
+[Update Here].
+
+![Alt text](img/DSC05522.JPG){width=240 height=160px}
 **Yadvesh Yadav**
 
 Email: [yyada@illinois.edu](mailto:yyada@illinois.edu)  
@@ -35,7 +60,7 @@ The primary objective of this project is to implement and evaluate two distinct 
 
 ## Data Inputs and Platform
 
-The strategies are developed using Strategy Studio, an event-driven trading framework that processes real-time quotes, trades, and order book events. By reacting to top-of-book quotes and trade messages, the strategies dynamically adjust their orders, sizes, and price levels.
+To implement the strategies Prof. Lariviere provided us Strategy Studio, an event-driven trading framework that processes real-time quotes, trades, and order book events. By reacting to top-of-book quotes and trade messages, the strategies dynamically adjust their orders, sizes, and price levels.
 
 ## Market Making Strategy Methodology
 
@@ -156,3 +181,7 @@ Below are references to the code for both strategies, which can be further adapt
 **Market Making Strategy (TradeImpactMM):**
 ```cpp
 /* Refer to TradeImpactMM C++ code implementation provided previously */
+
+**Liquidity Taking Strategy (StopLossHunting):**
+```cpp
+/* Refer to StopLossHunter C++ code implementation provided previously */
