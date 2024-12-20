@@ -37,7 +37,8 @@ LinkedIn: [https://www.linkedin.com/in/utkarsh/](https://www.linkedin.com/in/utk
 ---
 
 ![Alt text](img/DSC05522.JPG){width=240 height=160px}
-**Yadvesh Yadav**
+
+<p align="center"><strong>Yadvesh Yadav</strong></p>
 
 Email: [yyada@illinois.edu](mailto:yyada@illinois.edu)  
 LinkedIn: [https://www.linkedin.com/in/yadvesh/](https://www.linkedin.com/in/yadvesh/)
