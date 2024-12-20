@@ -7,7 +7,7 @@ This README provides a comprehensive overview of two sophisticated algorithmic t
 ## Team
 
 <!-- !![Alt text](img/DSC05522.JPG){width=240 height=160px}-->
-**Ben Granados**
+<p align="center"><strong>Ben Granados</strong></p>
 
 Email: [bgg3@illinois.edu](mailto:bgg3@illinois.edu)  
 LinkedIn: [https://www.linkedin.com/in/ben/](https://www.linkedin.com/in/ben/)
@@ -17,7 +17,7 @@ LinkedIn: [https://www.linkedin.com/in/ben/](https://www.linkedin.com/in/ben/)
 ---
 
 <!-- !![Alt text](img/DSC05522.JPG){width=240 height=160px}-->
-**Dhruv Oza (Team Lead)**
+<p align="center"><strong>Dhruv Oza (Team Lead)</strong></p>
 
 Email: [dhruvo2@illinois.edu](mailto:dhruvo2@illinois.edu)  
 LinkedIn: [https://www.linkedin.com/in/dhruv/](https://www.linkedin.com/in/dhruv/)
@@ -27,7 +27,7 @@ LinkedIn: [https://www.linkedin.com/in/dhruv/](https://www.linkedin.com/in/dhruv
 ---
 
 <!-- !![Alt text](img/DSC05522.JPG){width=240 height=160px}-->
-**Utkarsh Sharma**
+<p align="center"><strong>Utkarsh Sharma</strong></p>
 
 Email: [usharma4@illinois.edu](mailto:usharma4@illinois.edu)  
 LinkedIn: [https://www.linkedin.com/in/utkarsh/](https://www.linkedin.com/in/utkarsh/)
