@@ -69,7 +69,7 @@ The primary objective of this project is to implement and evaluate two distinct 
 
 To implement the strategies Prof. Lariviere provided us Strategy Studio, an event-driven trading framework that processes real-time quotes, trades, and order book events. By reacting to top-of-book quotes and trade messages, the strategies dynamically adjust their orders, sizes, and price levels.
 
-## Market Making Strategy Methodology
+## Market Making (TradeImpactMM) Strategy Methodology
 
 1. **Trade Impact Computation:**
    The strategy monitors incoming trades and calculates their impact on the aggregated bid/ask liquidity. For a trade of size T:
@@ -210,7 +210,7 @@ Both strategies implement key event handlers:
 
 These strategies serve as illustrative frameworks:
 
-- **Market Making:** 
+- **Market Making (TradeImpactMM):** 
   - Generates consistent, small gains from the spread under stable market conditions.
   - Risk is managed by adjusting quote levels and sizes based on inventory and liquidity conditions.
 
