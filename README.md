@@ -22,7 +22,7 @@ I am a Master's student in Financial Engineering at the University of Illinois U
 Email: [dhruvo2@illinois.edu](mailto:dhruvo2@illinois.edu)  
 LinkedIn: [https://www.linkedin.com/in/dhruv/](https://www.linkedin.com/in/ozadhruv/)
 
-I am currently pursuing Masters in Financial Engineering at UIUC. I like coding, developing strategies, and researching for trading alphas.
+I am currently pursuing Masters in Financial Engineering at UIUC. I like coding, developing strategies, and researching trading alphas.
 
 ---
 
