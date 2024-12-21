@@ -17,12 +17,12 @@ I am a Master's student in Financial Engineering at the University of Illinois U
 ---
 
 <!-- !![Alt text](img/DSC05522.JPG){width=240 height=160px}-->
-<p align="center"><strong>Dhruv Oza (Team Lead)</strong></p>
+<p align="center"><strong>Dhruv Oza</strong></p>
 
 Email: [dhruvo2@illinois.edu](mailto:dhruvo2@illinois.edu)  
-LinkedIn: [https://www.linkedin.com/in/dhruv/](https://www.linkedin.com/in/dhruv/)
+LinkedIn: [https://www.linkedin.com/in/dhruv/](https://www.linkedin.com/in/ozadhruv/)
 
-[Update Linkedin and  Bio].
+I am currently pursuing Masters in Financial Engineering at UIUC. I like coding, developing strategies, and researching for trading alphas.
 
 ---
 
@@ -219,6 +219,265 @@ These strategies serve as illustrative frameworks:
   - Uses strict risk controls (stop-losses and profit targets) to manage downside risk.
 
 While the raw profitability and stability depend on market conditions and parameter tuning, both strategies demonstrate how mathematical models, rolling statistics, and market structure insights can guide algorithmic decision-making in real-time.
+
+## Version 1: StopLossHunter Results
+
+### Order Execution Performance
+![Order Execution Stats](img/Taking/V1/order_metrics.png)
+
+This shows excellent order execution with 100% fill rate, indicating good market access and liquidity. The strategy exclusively used market orders for execution.
+
+### Order Size Distribution
+![Order Size Distribution](img/Taking/V1/order_plots.png)
+
+The order size distribution shows:
+- Equal distribution between long (+1) and short (-1) positions
+- No varying position sizes - consistent single lot trading
+- Balanced approach to position taking
+
+### PnL and Performance Metrics
+![Performance Metrics](img/Taking/V1/pnl_metrics.png)
+
+
+The strategy showed:
+- Negative overall performance
+- Poor risk-adjusted returns (negative returns)
+- Relatively contained drawdown percentage
+
+### PnL and Drawdown Over Time
+![PnL and Drawdown](img/Taking/V1/pnl_plot.png)
+
+The cumulative PnL chart shows:
+- Consistent downward trend
+- Most significant losses occurred between 11:05:16 and 11:05:22
+- No significant recovery periods
+- Maximum drawdown reached and maintained
+
+### Trading Activity
+![Trading Activity](img/Taking/V1/trade_metrics.png)
+
+Trading characteristics:
+- All trades were liquidity-removing
+- Consistent small trade sizes
+- Minimal execution costs per trade
+
+### Trade Prices Over Time
+![Trade Prices](img/Taking/V1/trade_plot.png)
+
+Price action analysis:
+- Trading range approximately $334-348
+- Most activity clustered in the $334-337 range
+- Some outlier trades at higher prices ($348)
+- Evidence of price level clustering
+
+### Areas for Improvement
+1. Risk Management
+   - Need for better stop-loss implementation
+   - Consider dynamic position sizing
+   - Improve entry/exit timing
+
+2. Execution Strategy
+   - Consider using limit orders for better pricing
+   - Implement smart order routing
+   - Add liquidity-adding capability
+
+3. Performance Optimization
+   - Reduce negative skew in returns
+   - Improve risk-adjusted metrics
+   - Better drawdown management
+
+These findings led to several improvements implemented in Version 2 of the strategy.
+
+# StopLossHunter Version 2 Analysis
+
+## Performance Visualization
+
+### 1. Performance Summary
+![Performance Metrics](img/Taking/V2/metrics.png)
+
+Key Improvements:
+- More contained losses due to a maximum threshold on the quantity(-$253.47 → -$16.35)
+
+### 2. Order Execution Analysis
+![Order Statistics](img/Taking/V2/order_metrics.png)
+
+Execution Quality:
+- Higher fill rate with mixed order types
+- More selective entry criteria (19 vs 404 orders in V1)
+- Strategic use of both market and limit orders
+
+### 3. Order Size Distribution
+![Order Size Distribution](img/Taking/V2/order_plot.png)
+
+Trade Size Analysis:
+- Balanced distribution between long (+1) and short (-1) positions
+- Consistent position sizing of 1 lot per trade
+- No scaling of positions, reducing risk exposure
+
+### 4. PnL and Drawdown Evolution
+![PnL and Drawdown](img/Taking/V2/pnl.png)
+
+Notable Features:
+- More controlled drawdown progression
+- Fewer but larger individual trades
+- More stable equity curve after initial positioning
+- Clear stopping points from time-based exits
+
+### 5. Trade Price Analysis
+![Trade Prices Over Time](img/Taking/V2/Trade_Prices.png)
+
+Price Action Insights:
+- Concentrated trading around specific price levels
+- Clear distinction between entry and exit prices
+- Evidence of momentum-based filtering working
+- Better defined price targets with limit orders
+
+### 6. Trading Activity Summary
+![Trading Activity](img/Taking/V2/TradeMetrics.png)
+
+Activity Metrics:
+- Significant reduction in trading frequency
+- Better balance of liquidity provision vs taking
+- Much lower execution costs ($2.00 → $0.06)
+
+## Major Implementation Changes
+
+### 1. Trading Logic Enhancements
+- **Hourly Bar-Based Levels**: Replaced rolling window highs/lows with hourly bar levels
+- **Momentum-Based Entry**: Added tick-by-tick momentum calculation using directional changes
+- **Mixed Order Types**: Implemented market orders for entry and limit orders for exits
+- **Time-Based Exit**: Added maximum position hold time (15 seconds default)
+- **State Management**: Added NO_TRADE state to prevent overtrading after reaching target
+
+### 2. Key Parameters
+```cpp
+entry_range_ticks_(3)    // Range around levels for entry
+target_ticks_(1)         // Profit target in ticks
+tick_lookback_(11)       // Momentum calculation window
+momentum_threshold_(0)    // Required momentum for entry
+max_hold_seconds_(15)    // Maximum position hold time
+```
+
+### 3. Trade Management Flow
+1. **Entry Trigger**:
+   ```cpp
+   bool IsNearSignificantLevel(const Instrument* instrument, double price, bool& is_near_high)
+   {
+       double high_distance = fabs(price - state.hourly_high);
+       double low_distance = fabs(price - state.hourly_low);
+       // Enter if price is within entry_range_ticks_ of high/low
+   }
+   ```
+
+2. **Momentum Calculation**:
+   ```cpp
+   void UpdateTickMomentum(const Instrument* instrument, double price)
+   {
+       // Track tick-by-tick price changes
+       state.tick_directions.push_back(direction);
+       // Maintain rolling window of directions
+   }
+   ```
+
+3. **Position Management**:
+   - Market orders for entry
+   - Limit orders at target price for exits
+   - Time-based exit if position held too long
+   - NO_TRADE state until next hourly bar
+
+## Performance Analysis
+
+### 1. Order Statistics
+```
+Total Orders:       19
+Filled Orders:      14 (73.68% fill rate)
+Cancelled Orders:   5
+Market Orders:      12
+Limit Orders:       7
+```
+- Improved fill rate management with mix of order types
+- Lower total order count indicates more selective entry criteria
+
+### 2. Performance Metrics
+```
+Total PnL:          $-16.35
+Return:             -0.00%
+Sharpe Ratio:       -0.497
+Max Drawdown:       $31.18 (0.00%)
+```
+- Significantly reduced drawdown from V1 ($253.47 to $31.18)
+- Improved Sharpe ratio (-3.807 to -0.497)
+- Still negative but smaller absolute PnL loss
+
+### 3. Trading Activity
+```
+Total Trades:        14
+Average Trade Size:  1 lot
+Total Execution Cost: $0.06
+Liquidity Profile:   
+  - Added: 2
+  - Removed: 12
+```
+- Lower trading frequency than V1 (404 → 14 trades)
+- Better balance of liquidity provision vs taking
+- Significantly reduced execution costs
+
+### 4. Trade Pattern Analysis
+- More concentrated trading around specific price levels
+- Better defined entry/exit points
+- Evidence of momentum-based filtering working
+- Clearer price targeting with limit orders
+
+## Improvements from V1
+
+1. **Risk Management**
+   - Better position sizing and exit management
+   - Added time-based risk control
+
+2. **Execution Quality**
+   - Added limit orders for better pricing
+   - Reduced market impact
+   - Lower execution costs
+
+3. **Trading Logic**
+   - More sophisticated entry criteria
+   - Better defined trading windows
+   - Improved state management
+
+4. **Performance Stability**
+   - More consistent PnL curve
+
+## Comparative Analysis V1 vs V2
+
+Key Takeaways:
+1. **Risk Management**: V2 shows significantly better risk control with reduced drawdown
+2. **Trade Selection**: More selective entry criteria led to fewer but better quality trades
+3. **Execution**: Lower costs and better price improvement through limit orders
+4. **Stability**: More stable equity curve with clearer entry/exit points
+
+## Areas for Further Improvement for Taking Strategy
+
+1. **Parameter Optimization**
+   - Tune momentum threshold
+   - Optimize entry range and target ticks
+   - Adjust maximum hold time
+
+2. **Risk Management**
+   - Implement dynamic position sizing
+   - Add market condition filters
+   - Develop adaptive exit strategies
+
+3. **Execution Enhancement**
+   - Smart order routing logic
+   - Dynamic order type selection
+   - Better cancel/replace logic
+
+4. **Market Analysis**
+   - Add volume analysis
+   - Implement price volatility filters
+   - Consider multiple timeframe analysis
+
+The Version 2 implementation shows significant improvements in risk management and execution quality, though still requires optimization for consistent profitability. The framework now provides a more robust foundation for further enhancements.
 
 ---
 
