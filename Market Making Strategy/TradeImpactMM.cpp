@@ -1,8 +1,3 @@
-/*================================================================================
-*     Copyright (c) RCM-X, 2011 - 2024.
-*     All rights reserved.
-/*================================================================================*/
-
 #ifdef _WIN32
     #include "stdafx.h"
 #endif
@@ -90,11 +85,12 @@ double TradeImpactMM::CalculateTradeImpact(const Instrument* instrument, double 
     const Quote& quote = instrument->top_quote();
     
     // Sum up liquidity for top levels
-    for (int i = 0; i < levels_to_consider_; ++i) {
-        if (quote.bid_side().price_levels().size() > i)
-            total_bid_size += quote.bid_side().price_levels()[i].size();
-        if (quote.ask_side().price_levels().size() > i)
-            total_ask_size += quote.ask_side().price_levels()[i].size();
+    if (quote.bid_side().IsValid()) {
+        total_bid_size = quote.bid_side().size();
+    }
+    
+    if (quote.ask_side().IsValid()) {
+        total_ask_size = quote.ask_side().size();
     }
     
     if (total_bid_size + total_ask_size == 0) return 0;
@@ -107,8 +103,8 @@ std::pair<double, double> TradeImpactMM::CalculateQuotes(const Instrument* instr
 {
     auto& impacts = trade_impacts_[instrument];
     if (impacts.size() < rolling_window_) {
-        return {0.0, 0.0};
-    }
+        return std::make_pair(0.0, 0.0);
+    }    
 
     vector<double> buy_impacts, sell_impacts;
     for (const auto& impact : impacts) {
@@ -120,7 +116,7 @@ std::pair<double, double> TradeImpactMM::CalculateQuotes(const Instrument* instr
     }
 
     if (buy_impacts.empty() || sell_impacts.empty()) {
-        return {0.0, 0.0};
+        return std::make_pair(0.0, 0.0);
     }
 
     sort(buy_impacts.begin(), buy_impacts.end());
@@ -134,7 +130,7 @@ std::pair<double, double> TradeImpactMM::CalculateQuotes(const Instrument* instr
 
     const Quote& quote = instrument->top_quote();
     if (!quote.ask_side().IsValid() || !quote.bid_side().IsValid()) {
-        return {0.0, 0.0};
+        return std::make_pair(0.0, 0.0);
     }
 
     double mid_price = (quote.ask() + quote.bid()) / 2.0;
@@ -163,18 +159,21 @@ std::pair<double, double> TradeImpactMM::CalculateQuotes(const Instrument* instr
     theo_bid = floor(theo_bid / tick_size_) * tick_size_;
     theo_ask = ceil(theo_ask / tick_size_) * tick_size_;
 
-    return {theo_bid, theo_ask};
+    return std::make_pair(theo_bid, theo_ask);
 }
 
 void TradeImpactMM::UpdateQuotes(const Instrument* instrument)
 {
     try {
         auto& state = instrument_states_[instrument];
-        
+
         // Cancel existing orders
         CancelAllOrders(instrument);
 
-        auto [bid_price, ask_price] = CalculateQuotes(instrument);
+        std::pair<double, double> quotes = CalculateQuotes(instrument);
+        double bid_price = quotes.first;
+        double ask_price = quotes.second;
+
         if (bid_price <= 0 || ask_price <= 0 || !IsSafeToQuote(instrument, bid_price, ask_price)) {
             return;
         }
@@ -182,15 +181,15 @@ void TradeImpactMM::UpdateQuotes(const Instrument* instrument)
         // Calculate position-adjusted sizes
         double current_pos = portfolio().position(instrument);
         double position_ratio = current_pos / max_position_;
-        
+
         // Base quote size adjusted by position
         double base_size = quote_size_ * (1.0 - abs(position_ratio));
-        
+
         // Adjust bid/ask sizes based on position
-        double bid_size = min(max_quote_size_, 
-                            max(min_quote_size_, 
+        double bid_size = min(max_quote_size_,
+                            max(min_quote_size_,
                                 base_size * (1.0 - position_ratio)));
-        
+
         double ask_size = min(max_quote_size_,
                             max(min_quote_size_,
                                 base_size * (1.0 + position_ratio)));
@@ -204,9 +203,11 @@ void TradeImpactMM::UpdateQuotes(const Instrument* instrument)
                                  ORDER_SIDE_BUY,
                                  ORDER_TIF_DAY,
                                  ORDER_TYPE_LIMIT);
-            string order_id = trade_actions()->SendNewOrder(bid_params);
-            state.active_orders.insert(order_id);
-            state.current_bid = bid_price;
+            OrderID order_id = trade_actions()->SendNewOrder(bid_params);
+            if (order_id > 0) {
+                state.active_orders.insert(order_id);
+                state.current_bid = bid_price;
+            }
         }
 
         if (ask_size >= min_quote_size_) {
@@ -217,22 +218,22 @@ void TradeImpactMM::UpdateQuotes(const Instrument* instrument)
                                  ORDER_SIDE_SELL,
                                  ORDER_TIF_DAY,
                                  ORDER_TYPE_LIMIT);
-            string order_id = trade_actions()->SendNewOrder(ask_params);
-            state.active_orders.insert(order_id);
-            state.current_ask = ask_price;
+            OrderID order_id = trade_actions()->SendNewOrder(ask_params);
+            if (order_id > 0) {
+                state.active_orders.insert(order_id);
+                state.current_ask = ask_price;
+            }
         }
 
         if (debug_) {
-            stringstream ss;
-            ss << "Updated quotes for " << instrument->symbol()
+            cout << "Updated quotes for " << instrument->symbol()
                << " Bid: " << bid_price << " x " << bid_size
                << " Ask: " << ask_price << " x " << ask_size
-               << " Pos: " << current_pos;
-            LogDebug(ss.str());
+               << " Pos: " << current_pos << endl;
         }
 
     } catch (const std::exception& e) {
-        logger().LogToClient(LOGLEVEL_ERROR, 
+        logger().LogToClient(LOGLEVEL_ERROR,
             std::string("Error updating quotes: ") + e.what());
     }
 }
@@ -240,7 +241,7 @@ void TradeImpactMM::UpdateQuotes(const Instrument* instrument)
 void TradeImpactMM::CancelAllOrders(const Instrument* instrument)
 {
     auto& state = instrument_states_[instrument];
-    for (const auto& order_id : state.active_orders) {
+    for (const OrderID& order_id : state.active_orders) {
         trade_actions()->SendCancelOrder(order_id);
     }
     state.active_orders.clear();
@@ -272,11 +273,11 @@ void TradeImpactMM::OnTrade(const TradeDataEventMsg& msg)
     try {
         const Instrument* instrument = &msg.instrument();
         double trade_size = msg.trade().size();
-        bool is_buy = msg.trade().side() == ORDER_SIDE_BUY;
+        bool is_buy = msg.trade().side() == TRADE_SIDE_BUY;  // Changed from ORDER_SIDE_BUY
 
         // Calculate and store trade impact
         double impact = CalculateTradeImpact(instrument, trade_size, is_buy);
-        
+
         auto& impacts = trade_impacts_[instrument];
         impacts.push_back(impact);
         if (impacts.size() > rolling_window_) {
@@ -287,15 +288,13 @@ void TradeImpactMM::OnTrade(const TradeDataEventMsg& msg)
         UpdateQuotes(instrument);
 
         if (debug_) {
-            stringstream ss;
-            ss << "Trade processed: " << instrument->symbol()
+            cout << "Trade processed: " << instrument->symbol()
                << " Size: " << trade_size
                << " Side: " << (is_buy ? "BUY" : "SELL")
-               << " Impact: " << impact;
-            LogDebug(ss.str());
+               << " Impact: " << impact << endl;
         }
     } catch (const std::exception& e) {
-        logger().LogToClient(LOGLEVEL_ERROR, 
+        logger().LogToClient(LOGLEVEL_ERROR,
             std::string("Error processing trade: ") + e.what());
     }
 }
@@ -310,19 +309,19 @@ void TradeImpactMM::OnOrderUpdate(const OrderUpdateEventMsg& msg)
                 // Update position tracking
                 double fill_price = msg.fill()->fill_price();
                 double fill_size = msg.fill()->fill_size();
-                
+
                 // Update average position price
                 double current_pos = portfolio().position(msg.order().instrument());
                 if (current_pos != 0) {
                     state.avg_position_price = fill_price;
                 }
-                
+
                 // Remove filled order from tracking
                 state.active_orders.erase(msg.order().order_id());
-                
+
                 // Update quotes after fill
                 UpdateQuotes(msg.order().instrument());
-                
+
                 if (debug_) {
                     stringstream ss;
                     ss << "Fill: " << msg.order().instrument()->symbol()
@@ -339,7 +338,7 @@ void TradeImpactMM::OnOrderUpdate(const OrderUpdateEventMsg& msg)
             }
         }
     } catch (const std::exception& e) {
-        logger().LogToClient(LOGLEVEL_ERROR, 
+        logger().LogToClient(LOGLEVEL_ERROR,
             std::string("Error in order update: ") + e.what());
     }
 }
@@ -352,7 +351,7 @@ void TradeImpactMM::OnTopQuote(const QuoteEventMsg& msg)
         state.last_quote_update = msg.event_time();
         UpdateQuotes(instrument);
     } catch (const std::exception& e) {
-        logger().LogToClient(LOGLEVEL_ERROR, 
+        logger().LogToClient(LOGLEVEL_ERROR,
             std::string("Error in quote update: ") + e.what());
     }
 }
@@ -362,88 +361,15 @@ void TradeImpactMM::OnBar(const BarEventMsg& msg)
     // Not using bars for this strategy
 }
 
-void TradeImpactMM::OnOrderBook(const OrderBookEventMsg& msg)
+void TradeImpactMM::DefineStrategyCommands()
 {
-    // Using top quote updates instead of full order book
+    // Strategy commands removed as per header changes
 }
 
 void TradeImpactMM::LogDebug(const std::string& message)
 {
     if (debug_) {
         logger().LogToClient(LOGLEVEL_DEBUG, message);
-    }
-}
-
-void TradeImpactMM::DefineStrategyCommands()
-{
-    commands().CreateCommand("flatten", "Flatten all positions");
-    commands().CreateCommand("cancel_all", "Cancel all open orders");
-    commands().CreateCommand("reset", "Reset strategy state");
-}
-
-void TradeImpactMM::OnStrategyCommand(const String& command)
-{
-    try {
-        if (command == "flatten") {
-            for (auto& pair : instrument_states_) {
-                const Instrument* instrument = pair.first;
-                double position = portfolio().position(instrument);
-                if (position != 0) {
-                    OrderParams params(*instrument,
-                                    abs(position),
-                                    0.0,  // Market order
-                                    MARKET_CENTER_ID_IEX,
-                                    position > 0 ? ORDER_SIDE_SELL : ORDER_SIDE_BUY,
-                                    ORDER_TIF_DAY,
-                                    ORDER_TYPE_MARKET);
-                    trade_actions()->SendNewOrder(params);
-                }
-            }
-            LogDebug("Flattening all positions");
-        }
-        else if (command == "cancel_all") {
-            for (auto& pair : instrument_states_) {
-                CancelAllOrders(pair.first);
-            }
-            LogDebug("Cancelling all orders");
-        }
-        else if (command == "reset") {
-            OnResetStrategyState();
-            LogDebug("Strategy state reset");
-        }
-    } catch (const std::exception& e) {
-        logger().LogToClient(LOGLEVEL_ERROR, 
-            std::string("Error executing command: ") + e.what());
-    }
-}
-
-void TradeImpactMM::OnStartOfDay(const StartOfDayEventMsg& msg)
-{
-    try {
-        // Reset daily tracking
-        for (auto& pair : instrument_states_) {
-            pair.second.active_orders.clear();
-            pair.second.current_bid = 0;
-            pair.second.current_ask = 0;
-        }
-        LogDebug("Start of day initialization complete");
-    } catch (const std::exception& e) {
-        logger().LogToClient(LOGLEVEL_ERROR, 
-            std::string("Error in start of day: ") + e.what());
-    }
-}
-
-void TradeImpactMM::OnEndOfDay(const EndOfDayEventMsg& msg)
-{
-    try {
-        // Cancel all open orders
-        for (auto& pair : instrument_states_) {
-            CancelAllOrders(pair.first);
-        }
-        LogDebug("End of day cleanup complete");
-    } catch (const std::exception& e) {
-        logger().LogToClient(LOGLEVEL_ERROR, 
-            std::string("Error in end of day: ") + e.what());
     }
 }
 

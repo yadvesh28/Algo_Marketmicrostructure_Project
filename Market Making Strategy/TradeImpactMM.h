@@ -1,17 +1,3 @@
-/*================================================================================
-*     Copyright (c) RCM-X, 2011 - 2024.
-*     All rights reserved.
-*
-*     This software is part of Licensed material, which is the property of RCM-X ("Company"), 
-*     and constitutes Confidential Information of the Company.
-*     Unauthorized use, modification, duplication or distribution is strictly prohibited by Federal law.
-*     No title to or ownership of this software is hereby transferred.
-*
-*     The software is provided "as is", and in no event shall the Company or any of its affiliates or successors be liable for any 
-*     damages, including any lost profits or other incidental or consequential damages relating to the use of this software.       
-*     The Company makes no representations or warranties, express or implied, with regards to this software.                        
-/*================================================================================*/
-
 #pragma once
 
 #ifndef _STRATEGY_STUDIO_LIB_TRADE_IMPACT_MM_STRATEGY_H_
@@ -26,17 +12,18 @@
 #endif
 
 #include <Strategy.h>
-#include "FillInfo.h"
-#include "AllEventMsg.h"
-#include "ExecutionTypes.h"
 #include <Analytics/ScalarRollingWindow.h>
 #include <MarketModels/Instrument.h>
 #include <Utilities/ParseConfig.h>
+#include "FillInfo.h"
+#include "AllEventMsg.h"
+#include "ExecutionTypes.h"
 #include <deque>
 #include <set>
 #include <unordered_map>
 
 using namespace RCM::StrategyStudio;
+using namespace RCM::StrategyStudio::MarketModels;
 
 // Trading state for each instrument
 struct InstrumentState {
@@ -46,7 +33,7 @@ struct InstrumentState {
         avg_position_price(0),
         last_quote_update(boost::posix_time::not_a_date_time) {}
 
-    std::set<std::string> active_orders;
+    std::set<OrderID> active_orders;  // Changed from string to OrderID
     double current_bid;
     double current_ask;
     double avg_position_price;
@@ -63,12 +50,8 @@ public: // Event handlers
     virtual void OnTopQuote(const QuoteEventMsg& msg);
     virtual void OnBar(const BarEventMsg& msg);
     virtual void OnOrderUpdate(const OrderUpdateEventMsg& msg);
-    virtual void OnOrderBook(const OrderBookEventMsg& msg);
-    virtual void OnStartOfDay(const StartOfDayEventMsg& msg);
-    virtual void OnEndOfDay(const EndOfDayEventMsg& msg);
     virtual void OnResetStrategyState();
     virtual void OnParamChanged(StrategyParam& param);
-    virtual void OnStrategyCommand(const String& command);
 
 private: // Strategy setup
     virtual void RegisterForStrategyEvents(StrategyEventRegister* eventRegister, DateType currDate);
@@ -119,5 +102,4 @@ extern "C" {
         return nullptr;
     }
 }
-
 #endif
