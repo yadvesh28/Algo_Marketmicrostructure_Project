@@ -16,7 +16,7 @@ I am a Master's student in Financial Engineering at the University of Illinois U
 
 ---
 
-<!-- !![Alt text](img/IMG_8831.jpeg){width=240 height=160px}-->
+![Alt text](img/IMG_8831.jpeg){width=240 height=160px}
 <p align="center"><strong>Dhruv Oza</strong></p>
 
 Email: [dhruvo2@illinois.edu](mailto:dhruvo2@illinois.edu)  
@@ -26,7 +26,7 @@ I am currently pursuing Masters in Financial Engineering at UIUC. I like coding,
 
 ---
 
-<!-- !![Alt text](img/DSC05522.JPG){width=240 height=160px}-->
+![Alt text](img/DSC05522.JPG){width=240 height=160px}
 <p align="center"><strong>Utkarsh Sharma</strong></p>
 
 Email: [usharma4@illinois.edu](mailto:usharma4@illinois.edu)  
