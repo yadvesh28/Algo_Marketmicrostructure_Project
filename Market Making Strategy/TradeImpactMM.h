@@ -88,8 +88,8 @@ private: // Strategy state
 
 extern "C" {
     _STRATEGY_EXPORTS const char* GetType() { return "TradeImpactMM"; }
-    _STRATEGY_EXPORTS const char* GetAuthor() { return "dlariviere"; }
-    _STRATEGY_EXPORTS const char* GetAuthorGroup() { return "UIUC"; }
+    _STRATEGY_EXPORTS const char* GetAuthor() { return "##"; }
+    _STRATEGY_EXPORTS const char* GetAuthorGroup() { return "##"; }
     _STRATEGY_EXPORTS const char* GetReleaseVersion() { return Strategy::release_version(); }
 
     _STRATEGY_EXPORTS IStrategy* CreateStrategy(const char* strategyType,
