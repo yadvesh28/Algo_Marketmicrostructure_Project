@@ -80,25 +80,35 @@ To implement the strategies Prof. Lariviere provided us Strategy Studio, an even
 
 1. **Trade Impact Computation:**
    The strategy monitors incoming trades and calculates their impact on the aggregated bid/ask liquidity. For a trade of size T:
-   $$\text{impact} = \text{impact\_multiplier} \times \frac{T}{(\text{total\_bid\_size} + \text{total\_ask\_size})} \times 
+   ```math
+   \text{impact} = \text{impact\_multiplier} \times \frac{T}{\text{total\_bid\_size} + \text{total\_ask\_size}} \times 
    \begin{cases}
    +1 & \text{if buy trade}\\
    -1 & \text{if sell trade}
-   \end{cases}$$
+   \end{cases}
+   ```
 
 2. **Rolling Window & Quantiles:**
    A rolling window of past trade impacts is maintained. The strategy computes quantiles (e.g., 10th percentile) to determine how to adjust theoretical bid and ask quotes. Let I_{b,q} be the buy-impact quantile and I_{s,q} the sell-impact quantile.
 
 3. **Theoretical Prices & Spreads:**
    Given the best bid and best ask, the mid-price is:
-   $$\text{mid\_price} = \frac{\text{best\_ask} + \text{best\_bid}}{2}$$
+   ```math
+   \text{mid\_price} = \frac{\text{best\_ask} + \text{best\_bid}}{2}
+   ```
 
    The strategy calculates theoretical bid/ask levels:
-   $$\text{theo\_bid} = \text{mid\_price} - I_{s,q} - (\text{position\_factor} \times \text{mid\_price})$$
-   $$\text{theo\_ask} = \text{mid\_price} + I_{b,q} - (\text{position\_factor} \times \text{mid\_price})$$
+   ```math
+   \text{theo\_bid} = \text{mid\_price} - I_{s,q} - (\text{position\_factor} \times \text{mid\_price})
+   ```
+   ```math
+   \text{theo\_ask} = \text{mid\_price} + I_{b,q} - (\text{position\_factor} \times \text{mid\_price})
+   ```
 
    Constraints ensure that the spread remains within set bounds:
-   $$\text{min\_spread\_ticks} \times \text{tick\_size} \leq (\text{theo\_ask} - \text{theo\_bid}) \leq \text{max\_spread\_ticks} \times \text{tick\_size}$$
+   ```math
+   \text{min\_spread\_ticks} \times \text{tick\_size} \leq (\text{theo\_ask} - \text{theo\_bid}) \leq \text{max\_spread\_ticks} \times \text{tick\_size}
+   ```
 
 4. **Inventory Control & Quote Sizes:**
    The size of each quote (order) is adjusted based on current inventory. As position size grows, the strategy modifies quote sizes and/or price levels to reduce directional exposure.
