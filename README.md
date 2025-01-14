@@ -7,7 +7,7 @@ This README provides a comprehensive overview of two sophisticated algorithmic t
 ## Team
 
 <div align="center">
-  <img src="img/Ben_Image.JPG" width="200" height="200" alt="Ben Granados">
+  <img src="img/Ben_Image.JPG" width="200" height="300" alt="Ben Granados">
   <p><strong>Ben Granados</strong></p>
 </div>
 
@@ -19,7 +19,7 @@ I am a Master's student in Financial Engineering at the University of Illinois U
 ---
 
 <div align="center">
-  <img src="img/IMG_8831.jpeg" width="200" height="200" alt="Dhruv Oza">
+  <img src="img/IMG_8831.jpeg" width="200" height="300" alt="Dhruv Oza">
   <p><strong>Dhruv Oza [Team Lead]</strong></p>
 </div>
 
