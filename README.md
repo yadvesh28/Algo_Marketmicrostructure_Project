@@ -6,8 +6,10 @@ This README provides a comprehensive overview of two sophisticated algorithmic t
 
 ## Team
 
-<img src="img/Ben_Image.JPG" width="150" height="150" alt="Ben Granados">
-<p align="center"><strong>Ben Granados</strong></p>
+<div align="center">
+  <img src="img/Ben_Image.JPG" width="200" height="200" alt="Ben Granados">
+  <p><strong>Ben Granados</strong></p>
+</div>
 
 Email: [bgg3@illinois.edu](mailto:bgg3@illinois.edu)  
 LinkedIn: [www.linkedin.com/in/bengranados10](www.linkedin.com/in/bengranados10)
@@ -16,8 +18,10 @@ I am a Master's student in Financial Engineering at the University of Illinois U
 
 ---
 
-<img src="img/IMG_8831.jpeg" width="150" height="150" alt="Dhruv Oza">
-<p align="center"><strong>Dhruv Oza</strong></p>
+<div align="center">
+  <img src="img/IMG_8831.jpeg" width="200" height="200" alt="Dhruv Oza">
+  <p><strong>Dhruv Oza [Team Lead]</strong></p>
+</div>
 
 Email: [dhruvo2@illinois.edu](mailto:dhruvo2@illinois.edu)  
 LinkedIn: [https://www.linkedin.com/in/dhruv/](https://www.linkedin.com/in/ozadhruv/)
@@ -26,8 +30,10 @@ I am currently pursuing Masters in Financial Engineering at UIUC. I like coding,
 
 ---
 
-<img src="img/utkarsh.jpeg" width="150" height="150" alt="Utkarsh Sharma">
-<p align="center"><strong>Utkarsh Sharma</strong></p>
+<div align="center">
+  <img src="img/utkarsh.jpeg" width="200" height="200" alt="Utkarsh Sharma">
+  <p><strong>Utkarsh Sharma</strong></p>
+</div>
 
 Email: [usharma4@illinois.edu](mailto:usharma4@illinois.edu)  
 LinkedIn: [https://www.linkedin.com/in/utkarsh/](https://www.linkedin.com/in/utkarshsharma00/)
