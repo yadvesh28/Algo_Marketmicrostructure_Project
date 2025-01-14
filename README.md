@@ -6,7 +6,7 @@ This README provides a comprehensive overview of two sophisticated algorithmic t
 
 ## Team
 
-![Alt text](img/Ben_Image.JPG){width=24 height=16px}
+![Alt text](img/Ben_Image.JPG){width=150 height=150px}
 <p align="center"><strong>Ben Granados</strong></p>
 
 Email: [bgg3@illinois.edu](mailto:bgg3@illinois.edu)  
