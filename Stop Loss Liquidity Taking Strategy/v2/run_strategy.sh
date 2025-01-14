@@ -35,7 +35,7 @@ cd /home/vagrant/ss/bt/
 sleep 1
 
 cd /home/vagrant/ss/bt/utilities
-./StrategyCommandLine cmd create_instance StopLossHunter_${PHASE}_$RUN_NUM StopLossHunter UIUC SIM-1001-101 dlariviere 1000000 -symbols "BA"
+./StrategyCommandLine cmd create_instance StopLossHunter_${PHASE}_$RUN_NUM StopLossHunter ## 1000000 -symbols "BA"
 ./StrategyCommandLine cmd strategy_instance_list
 
 ./StrategyCommandLine cmd start_backtest $START_DATE_FORMATTED $END_DATE_FORMATTED StopLossHunter_${PHASE}_$RUN_NUM 0
