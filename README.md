@@ -19,7 +19,7 @@ I am a Master's student in Financial Engineering at the University of Illinois U
 ---
 
 <div align="center">
-  <img src="img/IMG_8831.jpeg" width="200" height="300" alt="Dhruv Oza">
+  <img src="img/IMG_8831.jpeg" width="200" height="250" alt="Dhruv Oza">
   <p><strong>Dhruv Oza [Team Lead]</strong></p>
 </div>
 
@@ -31,7 +31,7 @@ I am currently pursuing Masters in Financial Engineering at UIUC. I like coding,
 ---
 
 <div align="center">
-  <img src="img/utkarsh.jpeg" width="200" height="200" alt="Utkarsh Sharma">
+  <img src="img/utkarsh.jpeg" width="200" height="250" alt="Utkarsh Sharma">
   <p><strong>Utkarsh Sharma</strong></p>
 </div>
 
