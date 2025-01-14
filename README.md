@@ -6,7 +6,7 @@ This README provides a comprehensive overview of two sophisticated algorithmic t
 
 ## Team
 
-<img src="img/Ben_Image.JPG" width="24" height="16" alt="Ben Granados">
+<img src="img/Ben_Image.JPG" width="150" height="100" alt="Ben Granados">
 <p align="center"><strong>Ben Granados</strong></p>
 
 Email: [bgg3@illinois.edu](mailto:bgg3@illinois.edu)  
@@ -16,7 +16,7 @@ I am a Master's student in Financial Engineering at the University of Illinois U
 
 ---
 
-![Alt text](img/IMG_8831.jpeg){width=24 height=16px}
+<img src="img/IMG_8831.jpeg" width="150" height="100" alt="Dhruv Oza">
 <p align="center"><strong>Dhruv Oza</strong></p>
 
 Email: [dhruvo2@illinois.edu](mailto:dhruvo2@illinois.edu)  
@@ -26,7 +26,7 @@ I am currently pursuing Masters in Financial Engineering at UIUC. I like coding,
 
 ---
 
-![Alt text](img/utkarsh.jpeg){width=24 height=16px}
+<img src="img/utkarsh.jpeg" width="150" height="100" alt="Utkarsh Sharma">
 <p align="center"><strong>Utkarsh Sharma</strong></p>
 
 Email: [usharma4@illinois.edu](mailto:usharma4@illinois.edu)  
@@ -36,8 +36,7 @@ I am currently pursuing an MS in Computer Science at the University of Illinois 
 
 ---
 
-![Alt text](img/DSC05522.JPG){width=24 height=16px}
-
+<img src="img/DSC05522.JPG" width="150" height="100" alt="Yadvesh Yadav">
 <p align="center"><strong>Yadvesh Yadav</strong></p>
 
 Email: [yyada@illinois.edu](mailto:yyada@illinois.edu)  
