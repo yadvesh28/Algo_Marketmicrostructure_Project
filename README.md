@@ -36,7 +36,7 @@ I am currently pursuing an MS in Computer Science at the University of Illinois 
 
 ---
 
-<img src="img/DSC05522.JPG" width="240" height="160" alt="Yadvesh Yadav">
+<img src="img/DSC05522.JPG" width="300" height="200" alt="Yadvesh Yadav">
 <p align="center"><strong>Yadvesh Yadav</strong></p>
 
 Email: [yyada@illinois.edu](mailto:yyada@illinois.edu)  
